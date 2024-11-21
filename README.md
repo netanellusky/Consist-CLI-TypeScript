@@ -19,15 +19,19 @@ A customizable Node.js project template using TypeScript, Express, and optional 
 5. [Usage](#usage)
    - [Running the Application](#running-the-application)
    - [Available Scripts](#available-scripts)
-6. [Best Practices](#best-practices)
+6. [Development](#development)
+   - [Editing the CLI Tool](#editing-the-cli-tool)
+   - [Publishing the CLI Tool](#publishing-the-cli-tool)
+   - [Installing Globally](#installing-globally)
+7. [Best Practices](#best-practices)
    - [Coding Standards](#coding-standards)
    - [Error Handling](#error-handling)
    - [Logging](#logging)
-7. [Adding New Features](#adding-new-features)
-8. [Testing](#testing)
-9. [Contribution Guidelines](#contribution-guidelines)
-10. [License](#license)
-11. [Acknowledgments](#acknowledgments)
+8. [Adding New Features](#adding-new-features)
+9. [Testing](#testing)
+10. [Contribution Guidelines](#contribution-guidelines)
+11. [License](#license)
+12. [Acknowledgments](#acknowledgments)
 
 ---
 
@@ -52,13 +56,13 @@ A customizable Node.js project template using TypeScript, Express, and optional 
 1. **Clone the repository**
 
    ```bash
-   git clone <repository-url> consist-starter-app
+   git clone <repository-url> consist-cli-typescript-project
    ```
 
 2. **Navigate to the project directory**
 
    ```bash
-   cd consist-starter-app
+   cd consist-cli-typescript-project
    ```
 
 3. **Install dependencies**
@@ -133,40 +137,23 @@ A customizable Node.js project template using TypeScript, Express, and optional 
 The project follows a clean architecture and domain-driven design principles. Here's an overview of the project's structure:
 
 ```
-consist-starter-app/
-├── package.json            # Project metadata and scripts
-├── tsconfig.json           # TypeScript configuration
-├── server.ts               # Entry point of the application
-├── .env.example            # Example environment variables file
-└── src/
-    ├── config/             # Configuration files
-    │   ├── envConfig.ts    # Environment configuration
-    │   └── redisConfig.ts  # Redis configuration (if Redis selected)
-    ├── core/               # Core functionalities like logging
-    │   └── logger/
-    │       ├── index.ts
-    │       ├── dev-logger.ts
-    │       └── prod-logger.ts
-    ├── features/           # Application features grouped by domain
-    │   ├── glassix/        # Glassix integration (if Glassix selected)
-    │   │   ├── controllers/
-    │   │   ├── interfaces/
-    │   │   └── services/
-    │   ├── google-sheets/  # Google Sheets integration (if selected)
-    │   │   ├── interfaces/
-    │   │   └── services/
-    │   └── ...             # Other features
-    ├── middleware/         # Express middleware
-    │   └── errorMiddleware.ts
-    ├── routes/             # Express route definitions
-    ├── shared/             # Shared resources (interfaces, services, errors)
-    │   ├── errors/
-    │   │   └── ErrorResponse.ts
-    │   ├── interfaces/
-    │   └── services/
-    │       ├── AzureKeyVaultService.ts
-    │       └── cacheService.ts  # Redis cache utilities (if Redis selected)
-    └── tests/              # Test suites (if applicable)
+consist-cli-typescript-project/
+├── bin/                      # Executable scripts
+│   └── index.js              # Entry point for the CLI tool
+├── templates/                # Templates for project generation
+│   ├── project/              # Base project template
+│   └── services/             # Templates for optional services
+│       ├── glassix/
+│       ├── google-sheets/
+│       └── redis/
+├── src/
+│   ├── commands/             # CLI command implementations
+│   ├── utils/                # Utility functions
+│   └── index.ts              # CLI entry point
+├── package.json              # Project metadata and scripts
+├── tsconfig.json             # TypeScript configuration
+├── README.md                 # This file
+└── ...                       # Other configuration files
 ```
 
 ---
@@ -306,6 +293,120 @@ npm start
 
 ---
 
+## Development
+
+### Editing the CLI Tool
+
+If you wish to modify or extend the CLI tool itself, follow these steps:
+
+1. **Clone the Repository**
+
+   ```bash
+   git clone <repository-url> consist-cli-typescript-project
+   ```
+
+2. **Navigate to the Project Directory**
+
+   ```bash
+   cd consist-cli-typescript-project
+   ```
+
+3. **Install Dependencies**
+
+   ```bash
+   npm install
+   ```
+
+4. **Make Changes**
+
+   - The CLI source code is located in the `src/` directory.
+   - Implement new commands in `src/commands/`.
+   - Update templates in the `templates/` directory.
+   - Ensure you follow the existing code structure and conventions.
+
+5. **Build the CLI Tool**
+
+   Compile the TypeScript code:
+
+   ```bash
+   npm run build
+   ```
+
+6. **Test Locally**
+
+   - You can test your changes without publishing by linking the package globally using `npm link`.
+
+   ```bash
+   npm link
+   ```
+
+   - Now, you can use the CLI commands globally.
+
+   ```bash
+   consist-cli create-project my-new-project
+   ```
+
+   - To unlink:
+
+   ```bash
+   npm unlink
+   ```
+
+### Publishing the CLI Tool
+
+If you want to publish the CLI tool so others can install it via npm:
+
+1. **Update `package.json`**
+
+   - Ensure the `name`, `version`, and other metadata are correctly set.
+   - The `bin` field should point to your CLI entry point.
+
+   ```json
+   {
+     "name": "consist-cli",
+     "version": "1.0.0",
+     "bin": {
+       "consist-cli": "./bin/index.js"
+     }
+     // ... other fields ...
+   }
+   ```
+
+2. **Login to npm**
+
+   ```bash
+   npm login
+   ```
+
+3. **Publish the Package**
+
+   ```bash
+   npm publish
+   ```
+
+   - **Note**: Make sure the package name is unique on the npm registry.
+
+4. **Versioning**
+
+   - Increment the version number in `package.json` for each new release.
+   - Follow semantic versioning (e.g., `1.0.1`, `1.1.0`, `2.0.0`).
+
+### Installing Globally
+
+Once the package is published to npm, it can be installed globally:
+
+```bash
+npm install -g consist-cli
+```
+
+Now, you can use the CLI tool from anywhere:
+
+```bash
+consist-cli create-project my-new-project
+```
+
+---
+
 ## Best Practices
 
 ### Coding Standards
@@ -331,43 +432,49 @@ npm start
 
 ## Adding New Features
 
-To add a new feature to the project, follow these steps:
+To add a new feature to the CLI tool or the generated projects, follow these steps:
 
-1. **Create a New Feature Directory**
+### Adding a New Service Template
 
-   ```bash
-   mkdir -p src/features/your-feature/{controllers,services,interfaces}
+1. **Create the Service Template**
+
+   - Add a new directory under `templates/services/` for your service.
+   - Include any files and directories that should be copied into generated projects.
+
+2. **Update `servicesInfo`**
+
+   - In `src/commands/createProject.ts` (or wherever the service configurations are), add an entry for your service.
+
+   ```typescript
+   const servicesInfo = {
+     // ... existing services ...
+     'New Service': {
+       dependencies: {
+         'new-service-package': '^1.0.0',
+       },
+       envConfig: `
+       newService: {
+         apiKey: getEnvVar('NEW_SERVICE_API_KEY'),
+       }`,
+       files: [
+         {
+           source: 'new-service/config/newServiceConfig.ts',
+           destination: 'src/config/newServiceConfig.ts',
+         },
+       ],
+     },
+   };
    ```
 
-2. **Implement Controllers, Services, and Interfaces**
+3. **Modify the CLI Logic**
 
-   - **Controllers**: Handle incoming HTTP requests and responses.
-   - **Services**: Contain business logic and interact with external services or databases.
-   - **Interfaces**: Define TypeScript interfaces for data models and service contracts.
+   - Ensure the CLI prompts include your new service.
+   - Update any logic that handles copying files and modifying configuration.
 
-3. **Define Routes**
+4. **Test Your Changes**
 
-   - Add route definitions in `src/routes/` or within your feature directory.
-   - Register your routes in the main router (`src/routes/index.ts`).
-
-4. **Update `server.ts`**
-
-   - Import and use your new feature's router.
-
-     ```typescript
-     import yourFeatureRouter from './features/your-feature/routes/yourFeatureRoutes';
-
-     app.use('/api/your-feature', yourFeatureRouter);
-     ```
-
-5. **Implement Business Logic**
-
-   - Follow best practices for separation of concerns.
-   - Use dependency injection where appropriate.
-
-6. **Update Documentation**
-
-   - Add necessary documentation for your feature in the project's README or a separate file.
+   - Use `npm link` to test the CLI tool locally.
+   - Generate a new project and verify that your service is included correctly.
 
 ---
 
@@ -376,7 +483,7 @@ To add a new feature to the project, follow these steps:
 Implement unit and integration tests to ensure code quality and reliability.
 
 - **Testing Frameworks**: Use testing frameworks like Jest or Mocha.
-- **Mocking**: Mock external dependencies (e.g., API calls, database connections) using libraries like `sinon` or `jest-mock`.
+- **Mocking**: Mock external dependencies (e.g., API calls, file system operations) using libraries like `sinon` or `jest-mock`.
 - **Test Structure**: Place test files alongside the files they test or in a separate `tests/` directory.
 - **Running Tests**: Add scripts to `package.json` for running tests.
 
