@@ -343,7 +343,7 @@ If you wish to modify or extend the CLI tool itself, follow these steps:
    - Now, you can use the CLI commands globally.
 
    ```bash
-   consist-cli create-project my-new-project
+   consist-cli new my-new-project
    ```
 
    - To unlink:
@@ -402,7 +402,7 @@ npm install -g consist-cli
 Now, you can use the CLI tool from anywhere:
 
 ```bash
-consist-cli create-project my-new-project
+consist-cli new my-new-project
 ```
 
 ---
