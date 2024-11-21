@@ -56,13 +56,13 @@ A customizable Node.js project template using TypeScript, Express, and optional 
 1. **Clone the repository**
 
    ```bash
-   git clone <repository-url> consist-cli-typescript-project
+   git clone <repository-url> consist-cli-typescript
    ```
 
 2. **Navigate to the project directory**
 
    ```bash
-   cd consist-cli-typescript-project
+   cd consist-cli-typescript
    ```
 
 3. **Install dependencies**
@@ -137,7 +137,7 @@ A customizable Node.js project template using TypeScript, Express, and optional 
 The project follows a clean architecture and domain-driven design principles. Here's an overview of the project's structure:
 
 ```
-consist-cli-typescript-project/
+consist-cli-typescript/
 ├── bin/                      # Executable scripts
 │   └── index.js              # Entry point for the CLI tool
 ├── templates/                # Templates for project generation
@@ -302,13 +302,13 @@ If you wish to modify or extend the CLI tool itself, follow these steps:
 1. **Clone the Repository**
 
    ```bash
-   git clone <repository-url> consist-cli-typescript-project
+   git clone <repository-url> consist-cli-typescript
    ```
 
 2. **Navigate to the Project Directory**
 
    ```bash
-   cd consist-cli-typescript-project
+   cd consist-cli-typescript
    ```
 
 3. **Install Dependencies**
